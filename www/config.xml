@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.robertfraher.responsive-application"
+        id        = "com.sarahvang.blackout-poetry"
         version   = "2.0.0">
-    <name>Responsive Application</name>
+    <name>Blackout Poetry</name>
 
     <description>
-        Responsive Application sample application.
+        Blackout Poetry creation application.
     </description>
 
-    <author href="http://phonegap.com" email="support@phonegap.com">
-        ProfessorRobertFraher
+    <author href="http://sarahvang.com" email="vangsa@my.uwstout.edu">
+        Sarah Vang
     </author>
 
     <feature name="http://api.phonegap.com/1.0/device" />
