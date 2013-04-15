@@ -1,0 +1,36 @@
+@charset "UTF-8";
+/* CSS Document */
+
+#toolbar [data-wysihtml5-action] {
+    float: right;
+  }
+
+#toolbar{
+    width:100%;
+    padding:0px;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.container {
+	padding: 35px;	
+}
+
+textarea {
+	width: 100%;
+	height: 700px;
+	border: #688237 solid 1px;
+	font-family: 'nautikregular';	
+}
+
+.wysihtml5-command-active {
+	font-weight: bold;
+}
+
+[data-wysihtml5-dialog] {
+    margin: 5px 0 0;
+    padding: 5px;
+    border: 1px solid #666;
+}
