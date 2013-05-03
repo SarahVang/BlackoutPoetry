@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" / >
+    <title>Title</title>
+    
+    <link href="css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+    
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>-->
+    <!--<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>-->
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    
+    <script type="text/javascript" src="js/jquery.mobile.custom.min.js"></script>
+    <script src="js/canvas2image.js" type="text/javascript"></script>
+    <script src="js/base64.js" type="text/javascript"></script>
+    
+    <script src="js/html2canvas.js" type="text/javascript"></script>
+    
+    <!--script type="text/javascript" charset="utf-8" src="js/Canvas2ImagePlugin.js"></script-->
+    
+    
+
+</head>
+
+<body>
+
+    <header><h1>Black it out</h1></header>
+    
+    <section>
+    	<div id="toolbar">
+        	<button id="save" type="button">Save</button>
+        	<button id="clear" type="button">Clear</button>
+            
+        	<ul>
+            	<li class="brush-size"><a id="xs-brush"><img src="images/toolbar_xs.png"></a></li>
+                <li class="brush-size"><a id="s-brush"><img src="images/toolbar_s.png"></a></li>
+                <li class="brush-size"><a id="m-brush"><img src="images/toolbar_m.png"></a></li>
+                <li class="brush-size"><a id="l-brush"><img src="images/toolbar_l.png"></a></li>
+                <li class="brush-size"><a id="xl-brush"><img src="images/toolbar_xl.png"></a></li>
+            </ul>
+            
+            <ul>
+            	<li class="brush-color"><a id="black"><img src="images/toolbar_black.png"></a></li>
+                <li class="brush-color"><a id="blue"><img src="images/toolbar_blue.png"></a></li>
+                <li class="brush-color"><a id="yellow"><img src="images/toolbar_yellow.png"></a></li>
+                <li class="brush-color"><a id="orange"><img src="images/toolbar_orange.png"></a></li>
+                <li class="brush-color"><a id="red"><img src="images/toolbar_red.png"></a></li>
+                <li class="brush-color"><a id="erase"><img src="images/toolbar_eraser.png"></a></li>
+            </ul>
+        
+        
+        </div>
+    	<div class="container">
+        	<div id="test"></div>
+        	<p id="destination"></p>
+        	<canvas id="myCanvas"></canvas>
+            <canvas id="myCanvas1"></canvas>
+        </div>
+    </section>
+        
+	
+    <script>
+	
+		var text;
+		var size;
+
+		var searchString = document.location.search;
+		
+		var canvas;
+		var ctx;
+		
+		var canvas1;
+		var ctx1;
+		
+		var save;
+		
+		var mouseIsDown = false;
+		
+		var oCanvas = document.getElementById("myCanvas"); 
+		var strDataURI = oCanvas.toDataURL();
+		
+		$(document).ready(function() {
+			getData();
+			canvas = document.getElementById('myCanvas');
+			canvas.width  = window.innerWidth;
+			canvas.height = 700;
+			
+			canvas1 = document.getElementById('myCanvas1');
+			canvas1.width  = window.innerWidth;
+			canvas1.height = 700;
+			
+			ctx = canvas.getContext('2d');
+			ctx1 = canvas.getContext('2d');
+				
+		});
+		
+		
+		function getQueryParam(parameter, qs) {
+			qs = "&" + qs;
+			var p = escape(unescape(parameter));
+			var regex = new RegExp("[?&]" + p + "=(?:([^&]*))?", "i");
+		   
+			var match = regex.exec(qs);
+			var value = "";
+			if (match != null) {
+				value = match[1];
+			};
+			return value;
+		};
+		
+		function getData() {
+			text = getQueryParam("text", searchString);
+			size = getQueryParam("size", searchString);
+			alert("This text is copied");
+			
+			document.getElementById("destination").innerHTML=(decodeURI(size))+""+(decodeURI(text))+" ";
+		};
+		
+		
+		
+		/*function onDeviceReady(){
+			var canvas2ImagePlugin = window.plugins.canvas2ImagePlugin;
+			canvas2ImagePlugin.saveImageDataToLibrary(
+				function(msg){
+					console.log(msg);
+				}, 
+				function(err){
+					console.log(err);
+				}, 
+				'myCanvas'
+			);
+		}
+		
+		$('#save').click(function(){
+			onDeviceReady();
+		});*/
+	
+
+		$('#myCanvas').on('vmousedown', function(event){
+			event.preventDefault();
+			mouseIsDown = true;
+			
+			ctx.strokeStyle = "black";
+			ctx.lineWidth = 2;
+			ctx.beginPath();
+			ctx.moveTo(event.pageX - $(this).offset().left, event.pageY - $(this).offset().top);
+			ctx.stroke();
+			
+		});		
+		
+		$('#myCanvas').on('vmousemove', function(event){
+			event.preventDefault();
+			
+			if(mouseIsDown == true){
+				ctx.lineTo(event.pageX - $(this).offset().left, event.pageY - $(this).offset().top);
+				ctx.stroke();
+			};
+			
+		});
+		
+		$('#myCanvas').on('vmouseup', function(event){
+			event.preventDefault();
+			mouseIsDown = false;
+		});
+		
+		
+		$('#save').on('tap', function(event){
+			event.preventDefault();
+			html2canvas(document.getElementsByClassName('container'),{
+				onrendered:function(canvas){
+					document.getElementById('test').appendChild(canvas);
+					alert ('hide original canvas');
+					$('#myCanvas').css("display","none");
+					//$('#destination').css("display","none");
+					//document.body.appendChild(canvas)
+					
+					saveImage();
+				}
+			});
+			
+			
+			//alert ('will getimage now');
+			//getImage();
+			//saveImage();
+		});
+		
+		/*function getImage(){
+			var img = canvas1.toDataURL();
+			document.getElementById('canvasImg').src = img;
+		}*/
+		
+		function saveImage(){
+			alert ('save the image');
+			Canvas2Image.saveAsPNG(oCanvas);
+		}
+		
+		//brush size
+		$("#xs-brush").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.lineWidth = 2;
+				ctx.stroke();
+			});
+		});	
+		
+		$("#s-brush").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.lineWidth = 4;
+				ctx.stroke();
+			});
+		});	
+		
+		$("#m-brush").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.lineWidth = 6;
+				ctx.stroke();
+			});
+		});	
+		
+		$("#l-brush").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.lineWidth = 10;
+				ctx.stroke();
+			});
+		});	
+		
+		$("#xl-brush").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.lineWidth = 14;
+				ctx.stroke();
+			});
+		});
+		
+		
+		//brush color
+		$("#black").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.strokeStyle = "black";
+				ctx.stroke();
+			});
+		});	
+		
+		$("#blue").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.strokeStyle = "blue";
+				ctx.stroke();
+			});
+		});
+		
+		$("#yellow").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.strokeStyle = "yellow";
+				ctx.stroke();
+			});
+		});
+		
+		$("#orange").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.strokeStyle = "orange";
+				ctx.stroke();
+			});
+		});
+		
+		$("#red").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.strokeStyle = "red";
+				ctx.stroke();
+			});
+		});
+		
+		$("#erase").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.globalCompositeOperation = 'copy';
+				ctx.strokeStyle = 'rgba(255, 255, 255, 255)';
+			});
+		});
+		
+		//clear
+		$('#clear').click(function() {
+
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+		
+		});
+		
+		$('.brush-size').click(function() {
+			$('.hidden').hide();
+			$('.active').removeClass('active');
+			$(this).addClass('active');
+		}); 
+		
+		$('.brush-color').click(function() {
+			$('.hidden1').hide();
+			$('.active1').removeClass('active1');
+			$(this).addClass('active1');
+		}); 
+					
+	
+	</script>
+  
+    
+        
+</body>
+
+</html>

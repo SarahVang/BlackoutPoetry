@@ -7,11 +7,24 @@
 
 #toolbar{
     width:100%;
-    padding:0px;
+    padding:10px;
+	height: 40px;
+	background-color: #ccc;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+#toolbar a {
+	text-decoration: none;
+	color: #222;
+	padding: 0 5px;
+}
+
+#toolbar .counter {
+	color: #666;
+	float: right;	
 }
 
 .container {
@@ -22,8 +35,10 @@ textarea {
 	width: 100%;
 	height: 700px;
 	border: #688237 solid 1px;
-	font-family: 'nautikregular';	
+	font-family: 'nautikregular', arial;
+	font-size: 14px;
 }
+
 
 .wysihtml5-command-active {
 	font-weight: bold;
@@ -34,3 +49,25 @@ textarea {
     padding: 5px;
     border: 1px solid #666;
 }
+
+.bold {
+	font-weight: bolder;
+}
+
+.italics {
+	font-style: italic;
+}
+
+
+@font-face {
+    font-family: 'nautikregular';
+    src: url('nautik-regular-webfont.eot');
+    src: url('nautik-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('nautik-regular-webfont.woff') format('woff'),
+         url('nautik-regular-webfont.ttf') format('truetype'),
+         url('nautik-regular-webfont.svg#nautikregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+

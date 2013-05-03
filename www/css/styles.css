@@ -153,24 +153,6 @@
 
 /* TABLET STYLES: PORTRAIT */
 @media only screen and (min-width: 768px) and (max-width: 959px){
-	header{
-		width:100%;
-		height:50px;
-		background-color:#000000;
-		-moz-box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.5);
-		-webkit-box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.5);
-		box-shadow: 0 0px 5px 5px rgba(0,0,0,0.5);
-		position:fixed;
-	}
-	
-	h1{
-		font-size:22px;
-		letter-spacing:-.5px;
-		color:#ffffff;
-		height:100%;
-		line-height:50px;
-		margin-left:1.3%;
-	}
 	
 	#content{
 		float:left;
@@ -185,6 +167,8 @@
 		margin-left:1.3%;
 		margin-bottom:20px;
 		color:#000000;
+		position: relative;
+		z-index: -1;
 	}
 	
 	#splash {
@@ -209,12 +193,75 @@
 		text-align: center;
 	}
 	
+	#next {
+		height: 35px;
+		background: #c57336;
+		border: 2px solid #f4be95;
+		color: #fff;
+		text-transform: uppercase;
+		font-family: 'nautikregular', courier;
+		padding: 5px 5px 0 5px;
+		font-size: 16px;
+		text-align: center;
+		display: block;
+		float: right;
+		margin-right: 10px;	
+		margin-top: 0px;
+		width: 100px;
+	}
+	
+	#clear {
+		height: 35px;
+		background: #c57336;
+		border: 2px solid #f4be95;
+		color: #fff;
+		text-transform: uppercase;
+		font-family: 'nautikregular', courier;
+		padding: 5px 5px 0 5px;
+		font-size: 16px;
+		text-align: center;
+		display: block;
+		float: right;
+		margin-right: 10px;	
+		margin-top: 0px;
+		width: 100px;
+	}
+	
+	#save {
+		height: 35px;
+		background: #00af21;
+		border: 2px solid #6dd881;
+		color: #fff;
+		text-transform: uppercase;
+		font-family: 'nautikregular', courier;
+		padding: 5px 5px 0 5px;
+		font-size: 16px;
+		text-align: center;
+		display: block;
+		float: right;
+		margin-right: 10px;	
+		margin-top: 0px;
+		width: 100px;
+	}
+	
 	header {
+		height: 90px;
+		width: 100%;
+		top: 0;
+		background-image: url(../images/header-bg.jpg);
+		background-repeat: repeat-x;
+		margin-top: 0px;
+		-moz-box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.5);
+		-webkit-box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.5);
+		box-shadow: 0 0px 5px 5px rgba(0,0,0,0.5);	
+	}
+	
+	#top {
 		height: 90px;
 		width: 100%;
 		background-image: url(../images/header-bg.jpg);
 		background-repeat: repeat-x;
-			
+		position: relative;	
 	}
 	
 	h1 {
@@ -223,15 +270,124 @@
 		font-family: 'nautikblack', courier;
 		font-size: 36px;
 		text-align: center;
-		margin-top: 20px;
+		padding-top: 25px;
 	}
 	
-	section {
-		width: 100%;
-		height: 100%;
-		top: 90px;
-		position: fixed;
+	#toolbar{
+		width:100%;
+		padding:3px 10px;
+		height: 40px;
+		background-color: #ccc;
+		-webkit-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 	}
+	
+	a {
+		text-decoration: none;
+		color: #222;
+		padding: 0px;
+		display: inline-block;
+		max-width: 32px;
+		max-height: 32px;
+	}
+	
+	.container {
+		padding: 35px;	
+	}
+	
+	textarea {
+		width: 100%;
+		height: 700px;
+		border: #688237 solid 1px;
+		font-family: 'nautikregular', arial;
+		font-size: 14px;
+		resize: none;
+	}
+	
+	#big {
+		font-family: times;	
+	}
+	
+	.active {
+		background-color: #a5a5a5;
+		border: 1px solid #727272;	
+		height: 100%;
+		width: 100%;	
+	}
+	
+	.hidden {
+		display: none;	
+	}
+	
+	.active1 {
+		background-color: #a5a5a5;
+		border: 1px solid #727272;	
+		height: 100%;
+		width: 100%;	
+	}
+	
+	.hidden1 {
+		display: none;	
+	}
+	
+	.active2 {
+		background-color: #a5a5a5;
+		border: 1px solid #727272;	
+		height: 100%;
+		width: 100%;
+	}
+	
+	.hidden2 {
+		display: none;	
+	}
+	
+	ul li {
+		display: inline-block;
+		max-width: 32px;
+		max-height: 32px;
+		padding: 0px;	
+	}
+	
+	ul {
+		float: left;
+		margin-right: 5px;
+		padding-right: 5px;
+		border-right: 1px #a5a5a5 solid;
+		max-height: 32px;
+	}
+	
+	#myCanvas {
+		width: 100%;
+		height: 700px;
+		position: absolute;
+		top: 130px;
+		left: 0;
+		z-index: 3;
+		border: 0px solid #000;	
+	}
+	
+	#myCanvas1 {
+		width: 100%;
+		height: 700px;
+		position: absolute;
+		top: 130px;
+		left: 0;
+		z-index: 2;
+		border: 2px solid #000;	
+	}
+	
+	#test {
+		width: 100%;
+		height: 700px;
+		position: absolute;
+		top: 130px;
+		left: 0;
+		z-index: 1;
+		border: 2px solid #777;	
+	}
+	
 	
 }
 
