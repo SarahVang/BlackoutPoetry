@@ -14,16 +14,8 @@
     <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>-->
     <!--<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>-->
     <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    
     <script type="text/javascript" src="js/jquery.mobile.custom.min.js"></script>
-    
-    <!--script src="js/canvas2image.js" type="text/javascript"></script>
-    <script src="js/base64.js" type="text/javascript"></script>
-    <script src="js/html2canvas.js" type="text/javascript"></script-->
-    
-    <script src="js/blob.js" type="text/javascript"></script>
-    <script src="js/canvas-toBlob.js" type="text/javascript"></script>
-    <script src="js/filesaver.js" type="text/javascript"></script>
-    
     <!--script type="text/javascript" charset="utf-8" src="js/Canvas2ImagePlugin.js"></script-->
     
     
@@ -36,11 +28,8 @@
     
     <section>
     	<div id="toolbar">
-        	<!--button id="save" type="button">Save</button-->
-            <form id="canvas-options">
-                <input id="save" type="submit" value="Save"></input>
-                <button id="clear" type="button">Clear</button>
-            </form>
+        	<button id="save" type="submit">Save</button>
+        	<button id="clear" type="button">Clear</button>
             
         	<ul>
             	<li class="brush-size"><a id="xs-brush"><img src="images/toolbar_xs.png"></a></li>
@@ -62,19 +51,22 @@
         
         </div>
     	<div class="container">
+        	<div id="test"></div>
         	<p id="destination"></p>
         	<canvas id="myCanvas"></canvas>
+            <canvas id="myCanvas1"></canvas>
         </div>
     </section>
         
 	
     <script>
 	
-		var text;
-		var size;
-
+		var canvasData;
+		
 		var searchString = document.location.search;
 		
+		//var img = document.createElement("img");
+		var img = new Image();
 		var canvas;
 		var ctx;
 		
@@ -82,20 +74,18 @@
 		
 		var mouseIsDown = false;
 		
-		//var canvas_options_form = $("canvas-options");
-		
-		//var oCanvas = document.getElementsByClassName('newCanvas');
-		//var oCanvas = document.getElementById('myCanvas');
-		 //alert( oCanvas.toDataURL())
-		//var strDataURI = oCanvas.toDataURL();
-		
 		$(document).ready(function() {
 			getData();
+			
 			canvas = document.getElementById('myCanvas');
 			canvas.width  = window.innerWidth;
-			canvas.height = 700;
+			canvas.height = 800;
 			
 			ctx = canvas.getContext('2d');
+			
+			//alert('we have'+ canvasData);
+			img.src = canvasData;
+			ctx.drawImage(img,0,0);
 				
 		});
 		
@@ -113,14 +103,28 @@
 			return value;
 		};
 		
-		function getData() {
+		/*function getData() {
 			text = getQueryParam("text", searchString);
-			size = getQueryParam("size", searchString);
-			alert("This"+text+"is copied");
+			textSize = getQueryParam("textSize", searchString);
+			//alert("This"+text+"is copied");
 			
-			document.getElementById("destination").innerHTML=(decodeURI(size))+""+(decodeURI(text))+" ";
+			//document.getElementById("destination").innerHTML=(decodeURI(size))+""+(decodeURI(text))+" ";
+			$("#destination").html("<font size='"+textSize+"'>"+text+"</font>");
+			
+		};*/
+		
+		function getData() {
+			canvasData = getQueryParam("canvasData", searchString);
+			alert(canvasData);
+			//textSize = getQueryParam("textSize", searchString);
+			//alert("This"+text+"is copied");
+			
+			//document.getElementById("destination").innerHTML=(decodeURI(size))+""+(decodeURI(text))+" ";
+			//$("#destination").html("<font size='"+textSize+"'>"+text+"</font>");
+			
 		};
 		
+	
 
 		$('#myCanvas').on('vmousedown', function(event){
 			event.preventDefault();
@@ -150,54 +154,22 @@
 		});
 		
 		
-		$("#canvas-options").addEventListener("submit", function(event) {
+		$('#save').on('tap', function(event){
 			event.preventDefault();
-			canvas.toBlob(function(blob) {
-				saveAs(
-					  blob
-					, "image.png"
-				);
-			}, "image/png");
-		}, false);
-		
-		/*$('#save').on('tap', function(event){
-			canvas.toBlob(function(blob){
-				saveAs(blob, "image.png");
-			}, "image/png");*/
-			
-			
-			/*event.preventDefault();
-			html2canvas(document.getElementsByClassName('container'),{
-				onrendered:function(canvas){
-					document.getElementById('test').appendChild(canvas);
-					//$(canvas).attr('id','myCanvas1');
-					//$(canvas).addClass('newCanvas')
-					//alert ('classAdded');
-					//alert ('hide original canvas');
-					//$('#myCanvas').css("display","none");
-					//$('#destination').css("display","none");
-					//document.body.appendChild(canvas)
-					
-					saveImage();
-				}
-			});
-			
-			
-			//alert ('will getimage now');
-			//getImage();
-			//saveImage();*/
-		//}, false);
+			sendImage();
+			//return false;
+		});
 		
 		/*function getImage(){
 			var img = canvas1.toDataURL();
 			document.getElementById('canvasImg').src = img;
 		}*/
 		
-		/*function saveImage(){
+		function sendImage(){
+			var imageData = canvas.toDataURL("image/png");
+			window.location.href = "preview.html?image="+imageData;
 	
-			alert ('save the image');
-			Canvas2Image.saveAsPNG(oCanvas);
-		}*/
+		};
 		
 		//brush size
 		$("#xs-brush").click(function () {

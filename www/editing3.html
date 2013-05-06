@@ -26,7 +26,7 @@
 <body>
 
     <header>
-    	<h1>Paste & Customize Text</h1>
+    	<h1>Paste &amp; Customize Text</h1>
         
     </header>
     
@@ -58,7 +58,7 @@
         </div>
         
         <div class="container">
-        	<form id="myForm" onSubmit="sendData(); return false" method="get">
+        	<form id="myForm" onSubmit="getCapture(); sendData(); return false" method="get">
         	<!--form id="myForm" method="get"-->
             	<textarea id="text" maxlength="3000" placeholder="Paste your text here."></textarea>
             </form>
@@ -127,16 +127,6 @@ else
 			textSize = "12px";
 		   //$("#text").css({"font-size":"12px"});
 		   $("#text").css("font-size",textSize);
-		  
-		  
-		   /*if(smallerbgvisible == true){
-			  smallerbgvisible = false;
-			  $("#smaller").css("background-color", "transparent");
-		  	
-		   } else {
-				smallerbgvisible = true
-				 $("#smaller").css("background-color", "red");
-		   }*/  
 		   
 		});
 		
@@ -236,48 +226,29 @@ else
 			$(this).addClass('active2');
 		});*/
 		
-		function sendData(){
-			var textValue = document.getElementById('text').value;
-			alert( 'textvalue is copied');
-			window.location = "canvas3.html?text="+"<font size="+textSize+">"+textValue+"</font>";
-			//window.location = "canvas3.html?text="+textValue;
-		}
-		  
-	</script>   
-        
-   
-    
-    
-    <!--script>
-    
-    //counter
-    (function($) {
-			$.fn.extend( {
-				limiter: function(limit, elem) {
-					$(this).on("keyup focus", function() {
-						setCount(this, elem);
-					});
-					function setCount(src, elem) {
-						var chars = src.value.length;
-						if (chars > limit) {
-							src.value = src.value.substr(0, limit);
-							chars = limit;
-						}
-						elem.html( limit - chars );
-					}
-					setCount($(this)[0], elem);
+		$('#next').on('tap', function(event){
+			event.preventDefault();
+			html2canvas(document.getElementsByClassName("container"), {
+				onrendered: function (canvas) {
+					var textCanvas = canvas.toDataURL();
+					//alert (textCanvas);
+					window.location.href = "canvas5.html?canvasData="+textCanvas;
 				}
 			});
-		})(jQuery); 
+			
+		});
 		
-		var elem = $("#chars");
-		$("#text").limiter(3000, elem);  
-    
-    
-    
-    
-    </script>-->
-    
+		
+		//function sendData(){
+			
+			//var textValue = document.getElementById('text').value;
+			//alert( textValue+ 'is copied');
+			//window.location = "canvas4.html?text="+textValue+"&textSize="+textSize;
+			//window.location = "canvas3.html?text="+textValue;
+		//}
+		 
+  	</script>
+        
         
 </body>
 

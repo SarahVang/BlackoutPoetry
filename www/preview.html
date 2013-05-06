@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Untitled Document</title>
+    
+    <style>
+		img {
+			border: red 3px solid;
+			height: 100%;
+			width: 100%;	
+		}
+		
+		h1 {
+			font-size: 36px;
+		}
+	
+	</style>
+</head>
+
+<body onLoad="getImage()">
+
+	<h1>Congrats. Your Image</h1>
+	<div id="something"></div>
+
+	<script>
+    
+	var image;
+	var searchString = document.location.search;
+	
+	$(document).ready(function() {
+        alert ('image data is');
+    });
+	
+    function getQueryParam(parameter, qs) {
+		qs = "&" + qs;
+		var p = escape(unescape(parameter));
+		var regex = new RegExp("[?&]" + p + "=(?:([^&]*))?", "i");
+	   
+		var match = regex.exec(qs);
+		var value = "";
+		if (match != null) {
+			value = match[1];
+		};
+		return value;
+	};
+	
+	function getImage() {
+		image = getQueryParam("image", searchString);
+		
+		alert("This"+ image +"is copied");
+		document.getElementById("something").innerHTML="<img src='"+image+"'>";
+	};
+    </script>
+
+</body>
+</html>
