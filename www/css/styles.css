@@ -210,6 +210,23 @@
 		width: 100px;
 	}
 	
+	#back {
+		height: 35px;
+		background: #c57336;
+		border: 2px solid #f4be95;
+		color: #fff;
+		text-transform: uppercase;
+		font-family: 'nautikregular', courier;
+		padding: 5px 5px 0 5px;
+		font-size: 16px;
+		text-align: center;
+		display: block;
+		float: right;
+		margin-right: 10px;	
+		margin-top: 0px;
+		width: 100px;
+	}
+	
 	#clear {
 		height: 35px;
 		background: #c57336;
