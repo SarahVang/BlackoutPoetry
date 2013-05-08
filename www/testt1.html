@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" / >
+    <title>Title</title>
+    
+    <link href="css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+    
+    
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>-->
+    <!--<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>-->
+    
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile.custom.min.js"></script>
+    
+    <!--script type="text/javascript" charset="utf-8" src="js/Canvas2ImagePlugin.js"></script-->
+    <script src="js/html2canvas.js" type="text/javascript"></script>
+    
+
+</head>
+
+<body>
+
+
+	<div class="dumbBoxWrap">
+    <div class="dumbBoxOverlay">
+        &nbsp;
+    </div>
+    <div class="vertical-offset">
+        <div class="dumbBox">
+            
+        </div>
+    </div>
+</div>
+	
+    <header><h1>Black it out</h1></header>
+    
+    <section id="something">
+    	<div id="toolbar">
+        	
+        	<button id="save" type="submit">Save</button>
+        	<button id="clear" type="button">Clear</button>
+            
+            <ul>
+            	<li class="options"><a id="textoptions">Text</a></li>
+                <li class="options"><a id="canvas">Draw</a></li>
+            </ul>
+            
+            <ul id="fontSize" class="editText">
+                <li class="text-size"><a id="smaller"><img src="images/toolbar_12px.png"></a></li>
+                <li class="text-size"><a id="small"><img src="images/toolbar_14px.png"></a></li>
+                <li class="text-size"><a id="medium"><img src="images/toolbar_16px.png"></a></li>
+                <li class="text-size"><a id="big"><img src="images/toolbar_18px.png"></a></li>
+                <li class="text-size"><a id="bigger"><img src="images/toolbar_22px.png"></a></li>
+            </ul>
+            
+            <ul id="fontAlignment" class="editText">
+                <li class="alignment"><a id="left"><img src="images/toolbar_left.png"></a></li>
+                <li class="alignment"><a id="center"><img src="images/toolbar_center.png"></a></li>
+                <li class="alignment"><a id="right"><img src="images/toolbar_right.png"></a></li>
+            </ul>
+            
+            <ul id="fontStyles" class="editText">
+                <li class="styles"><a id="bold"><img src="images/toolbar_bold.png"></a></li>
+                <li class="styles"><a id="italics"><img src="images/toolbar_italics.png"></a></li>
+            </ul>
+            
+        	<ul id="brushes" class="editCanvas">
+            	<li class="brush-size"><a id="xs-brush"><img src="images/toolbar_xs.png"></a></li>
+                <li class="brush-size"><a id="s-brush"><img src="images/toolbar_s.png"></a></li>
+                <li class="brush-size"><a id="m-brush"><img src="images/toolbar_m.png"></a></li>
+                <li class="brush-size"><a id="l-brush"><img src="images/toolbar_l.png"></a></li>
+                <li class="brush-size"><a id="xl-brush"><img src="images/toolbar_xl.png"></a></li>
+            </ul>
+            
+            <ul id="colors" class="editCanvas">
+            	<li class="brush-color"><a id="black"><img src="images/toolbar_black.png"></a></li>
+                <li class="brush-color"><a id="blue"><img src="images/toolbar_blue.png"></a></li>
+                <li class="brush-color"><a id="yellow"><img src="images/toolbar_yellow.png"></a></li>
+                <li class="brush-color"><a id="orange"><img src="images/toolbar_orange.png"></a></li>
+                <li class="brush-color"><a id="red"><img src="images/toolbar_red.png"></a></li>
+                <li class="brush-color"><a id="erase"><img src="images/toolbar_eraser.png"></a></li>
+            </ul>
+        
+        
+        </div>
+    	<div class="container">
+        	
+        	
+                        
+        		
+        	<textarea id="text" maxlength="3000" placeholder="Paste your text here." onClick="value=value.replace(/^(\r\n)|(\n)/,'');"></textarea>
+        	<canvas id="myCanvas"></canvas>
+        </div>
+    </section>
+        
+	
+    <script>
+	
+		//var canvasData;2
+		
+		//var searchString = document.location.search;
+		
+		//var img = document.createElement("img");
+		//var img = new Image();
+		var canvas;
+		var ctx;
+		
+		var save;
+		
+		var mouseIsDown = false;
+		
+		$(document).ready(function(){
+			
+			$("#text").keypress(function(event) {
+				if(event.which == '13') {
+				  return false;
+				}
+				value=value.replace(/^(\r\n)|(\n)/,'')
+			});
+			
+			enableCanvas();
+			$('#clear').css('visibility', 'hidden');  
+			$('#textoptions').addClass('active3');
+			$('.editCanvas').css('display','none');
+			$('.editText').css('display','block');
+			$('#myCanvas').css('visibility','hidden');
+		});
+		
+		$('#save').on('tap', function(event){
+			event.preventDefault();
+			sendImage();
+			//return false;
+		});
+		
+		/*function getImage(){
+			var img = canvas1.toDataURL();
+			document.getElementById('canvasImg').src = img;
+		}*/
+		
+		function sendImage(){
+			
+			html2canvas(document.getElementsByClassName("container"), {
+				onrendered: function (canvas) {
+				var imageData = canvas.toDataURL("image/png");
+				$('.dumbBoxWrap').show();
+				$('.dumbBox').append("<img class='outcome' src='"+imageData+"'>");
+				//$(".container").append("<img src='"+imageData+"'>");
+				//window.location.href = "preview.html?image="+imageData;
+				}
+			});
+		};
+		
+		//clear
+		$('#clear').click(function() {
+			
+			var x;
+			var r=confirm("Would you like to delete everything you drew? Your text will not be affected.");
+			if (r==true)
+			  {
+			  ctx.clearRect(0, 0, canvas.width, canvas.height);
+			  }
+			else
+			  {
+			 
+			  }
+			//document.getElementById("demo").innerHTML=x;
+			
+			//window.alert('Would you like to delete everything you drew? Your text will not be affected.')
+			//ctx.clearRect(0, 0, canvas.width, canvas.height);
+		
+		});
+		
+		function enableCanvas() {
+			//getData();
+			$('#myCanvas').css('visibility','visible');
+			canvas = document.getElementById('myCanvas');
+			canvas.width  = window.innerWidth;
+			canvas.height = window.innerHeight;
+			
+			ctx = canvas.getContext('2d');
+			
+			//alert('we have'+ canvasData);
+			//img.src = canvasData;
+			//ctx.drawImage(img,0,0);
+		};
+	
+		
+//TEXT TOOLBAR
+		
+
+		var textSize;
+		/*Toggle Text With These Properties*/
+		
+		$('#textoptions').on('tap',function(event){
+			//$(this).addClass('active3');
+			$('.editCanvas').css('display','none');
+			$('.editText').css('display','block');
+			$('#myCanvas').css('visibility','hidden');
+			$('#clear').css('visibility', 'hidden');
+		});
+		
+		$("#smaller").click(function () {
+			textSize = "12px";
+		   //$("#text").css({"font-size":"12px"});
+		   $("#text").css("font-size",textSize);
+		   
+		});
+		
+		$("#small").on('tap', function(event){
+			textSize = "14px";
+			$("#text").css("font-size", textSize);
+		});
+	
+		$("#medium").on('tap', function(event){
+			textSize = "16px";
+			$("#text").css("font-size", textSize);
+		});
+	
+		$("#big").on('tap', function(event){
+			textSize = "18px";
+			$("#text").css("font-size", textSize);
+		});
+		
+		$("#bigger").on('tap', function(event){
+			event.preventDefault();
+			textSize = "22px";
+			$("#text").css("font-size", textSize);
+		});
+			
+		$("#left").on('tap', function(event){
+			event.preventDefault();
+			  $("#text").css("text-align","left");
+			});
+			
+		$("#right").on('tap', function(event){
+			event.preventDefault();
+		  $("#text").css("text-align","right");
+		});
+		
+		$("#center").on('tap', function(event){
+			event.preventDefault();
+			  $("#text").css("text-align","center");
+			});
+		
+		/*$("#bold").on('tap', function(event){
+	event.preventDefault();
+			  $("#text").css({"font-weight":"bold"});
+			});*/
+		
+		
+		var italicized = false;
+			
+		$("#italics").on('tap', function(event){
+			event.preventDefault();
+			
+			if(italicized == true){
+				italicized = false;
+				$("#text").css("font-style","normal");
+				$(this).removeClass('active2');
+			} else {
+				italicized = true;
+				$("#text").css("font-style","italic");
+				$(this).addClass('active2');
+			}
+				
+		});
+		
+		var bolded = false;
+		$("#bold").on('tap', function(event){
+			event.preventDefault();
+			
+			if(bolded == true){
+				bolded = false;
+				$("#text").css("font-weight","normal");
+				$(this).removeClass('active2');
+			} else {
+				bolded = true;
+				$("#text").css("font-weight","bolder");
+				$(this).addClass('active2');
+			}
+				
+		});
+		
+		$('.text-size').on('tap', function(event){
+			//event.preventDefault();
+			$('.hidden').hide();
+			$('.active').removeClass('active');
+			$(this).addClass('active');
+		}); 
+		
+		$('.alignment').on('tap', function(event){
+			//event.preventDefault();
+			$('.hidden1').hide();
+			$('.active1').removeClass('active1');
+			$(this).addClass('active1');
+		});
+		
+		
+		
+		/*$('.styles').on('tap', function(event){
+	event.preventDefault();
+			$('.hidden2').hide();
+			$('.active2').removeClass('active2');
+			$(this).addClass('active2');
+		});*/		
+		
+				//////////////////		
+/////////////////CANVAS TOOLBAR/////////////////
+			   //////////////////
+			   
+		$('#canvas').on('tap',function(event){
+			//$(this).addClass('active3');
+			$('.editCanvas').css('display','block');
+			$('.editText').css('display','none');
+			$('#myCanvas').css('visibility', 'visible');
+			$('#clear').css('visibility', 'visible');
+			//enableCanvas();		
+		});
+
+		$('.options').click(function() {
+			$('.hidden3').hide();
+			$('.active3').removeClass('active3');
+			$(this).addClass('active3');
+		});
+		
+		
+		$('#myCanvas').on('vmousedown', function(event){
+			event.preventDefault();
+			mouseIsDown = true;
+			
+			ctx.strokeStyle = "black";
+			ctx.lineWidth = 2;
+			ctx.beginPath();
+			ctx.moveTo(event.pageX - $(this).offset().left, event.pageY - $(this).offset().top);
+			ctx.stroke();
+			
+		});		
+		
+		$('#myCanvas').on('vmousemove', function(event){
+			event.preventDefault();
+			
+			if(mouseIsDown == true){
+				ctx.lineTo(event.pageX - $(this).offset().left, event.pageY - $(this).offset().top);
+				ctx.stroke();
+			};
+			
+		});
+		
+		$('#myCanvas').on('vmouseup', function(event){
+			event.preventDefault();
+			mouseIsDown = false;
+		});
+		
+		
+		//brush size
+		$("#xs-brush").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.lineWidth = 2;
+				ctx.stroke();
+			});
+		});	
+		
+		$("#s-brush").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.lineWidth = 4;
+				ctx.stroke();
+			});
+		});	
+		
+		$("#m-brush").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.lineWidth = 6;
+				ctx.stroke();
+			});
+		});	
+		
+		$("#l-brush").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.lineWidth = 10;
+				ctx.stroke();
+			});
+		});	
+		
+		$("#xl-brush").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.lineWidth = 14;
+				ctx.stroke();
+			});
+		});
+		
+		
+		//brush color
+		$("#black").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.strokeStyle = "black";
+				ctx.stroke();
+			});
+		});	
+		
+		$("#blue").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.strokeStyle = "blue";
+				ctx.stroke();
+			});
+		});
+		
+		$("#yellow").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.strokeStyle = "yellow";
+				ctx.stroke();
+			});
+		});
+		
+		$("#orange").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.strokeStyle = "orange";
+				ctx.stroke();
+			});
+		});
+		
+		$("#red").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.strokeStyle = "red";
+				ctx.stroke();
+			});
+		});
+		
+		$("#erase").click(function () {
+			$('#myCanvas').on('vmousedown', function(event){
+				ctx.globalCompositeOperation = 'copy';
+				ctx.strokeStyle = 'rgba(255, 255, 255, 255)';
+			});
+		});
+		
+		
+		
+		$('.brush-size').click(function() {
+			$('.hidden').hide();
+			$('.active').removeClass('active');
+			$(this).addClass('active');
+		}); 
+		
+		$('.brush-color').click(function() {
+			$('.hidden1').hide();
+			$('.active1').removeClass('active1');
+			$(this).addClass('active1');
+		}); 
+					
+	
+	</script>
+  
+    
+        
+</body>
+
+</html>
