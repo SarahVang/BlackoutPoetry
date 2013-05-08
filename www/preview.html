@@ -23,7 +23,7 @@
 	<header><h1>Your Poem</h1></header>
     
     <div id="toolbar">
-        <button id="back" type="button" onclick="history.back(-1)">Back</button>
+        <button class="back" type="button" onclick="history.back(-1)">Back</button>
          
      </div>
     
@@ -34,9 +34,7 @@
 	var image;
 	var searchString = document.location.search;
 	
-	$(document).ready(function() {
-       // alert ('image data is');
-    });
+	
 	
     function getQueryParam(parameter, qs) {
 		qs = "&" + qs;
@@ -54,7 +52,7 @@
 	function getImage() {
 		image = getQueryParam("image", searchString);
 		
-		alert("This"+ image +"is copied");
+		//alert("This"+ image +"is copied");
 		document.getElementById("something").innerHTML="<img src='"+image+"'>";
 	};
     </script>

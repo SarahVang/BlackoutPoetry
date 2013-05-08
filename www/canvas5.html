@@ -17,7 +17,7 @@
     
     <script type="text/javascript" src="js/jquery.mobile.custom.min.js"></script>
     <!--script type="text/javascript" charset="utf-8" src="js/Canvas2ImagePlugin.js"></script-->
-    
+    <script src="js/html2canvas.js" type="text/javascript"></script>
     
 
 </head>
@@ -28,6 +28,7 @@
     
     <section>
     	<div id="toolbar">
+        	<button id="back" type="button" onclick="history.back(-1)">Back</button>
         	<button id="save" type="submit">Save</button>
         	<button id="clear" type="button">Clear</button>
             
@@ -84,11 +85,10 @@
 			ctx = canvas.getContext('2d');
 			
 			//alert('we have'+ canvasData);
-			img.src = canvasData;
-			ctx.drawImage(img,0,0);
-				
+			//img.src = canvasData;
+			//ctx.drawImage(img,0,0);
+
 		});
-		
 		
 		function getQueryParam(parameter, qs) {
 			qs = "&" + qs;
@@ -115,9 +115,10 @@
 		
 		function getData() {
 			canvasData = getQueryParam("canvasData", searchString);
-			
+			document.getElementById("test").innerHTML="<img src='"+canvasData+"'>";
 			//textSize = getQueryParam("textSize", searchString);
-			//alert("This"+text+"is copied");
+			//alert(canvasData);
+			
 			
 			//document.getElementById("destination").innerHTML=(decodeURI(size))+""+(decodeURI(text))+" ";
 			//$("#destination").html("<font size='"+textSize+"'>"+text+"</font>");
@@ -166,9 +167,13 @@
 		}*/
 		
 		function sendImage(){
-			var imageData = canvas.toDataURL("image/png");
-			window.location.href = "preview.html?image="+imageData;
-	
+			
+			html2canvas(document.getElementsByClassName("container"), {
+				onrendered: function (canvas) {
+				var imageData = canvas.toDataURL("image/png");
+				window.location.href = "preview.html?image="+imageData;
+				}
+			});
 		};
 		
 		//brush size
