@@ -14,7 +14,7 @@
 </head>
 
 <body onLoad="getImage()">
-
+	
 	<header><h1>Blackout Poetry</h1></header>
     
     <div id="toolbar">
@@ -46,9 +46,10 @@
 	
 	function getImage() {
 		image = getQueryParam("image", searchString);
-		
+		//alert('Save your image by pressing the Home and Power button and then letting go at the same time');
 		//alert("This"+ image +"is copied");
 		document.getElementById("something").innerHTML="<img src='"+image+"'>";
+		
 	};
     </script>
 
