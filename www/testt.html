@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" / >
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>Title</title>
+    <title>Blackout Poetry</title>
     
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
     <link href="css/styles.css" rel="stylesheet" type="text/css" />
@@ -28,7 +28,7 @@
 <body>
 
 	
-    <header><h1>Black it out</h1></header>
+    <header><h1>Blackout Poetry</h1></header>
     
     <section id="something">
     	<div id="toolbar">
@@ -71,7 +71,7 @@
             <ul id="colors" class="editCanvas">
             	<li class="brush-color"><a id="black"><img src="images/toolbar_black.png"></a></li>
                 <li class="brush-color"><a id="blue"><img src="images/toolbar_blue.png"></a></li>
-                <li class="brush-color"><a id="yellow"><img src="images/toolbar_yellow.png"></a></li>
+                <li class="brush-color"><a id="green"><img src="images/toolbar_green.png"></a></li>
                 <li class="brush-color"><a id="orange"><img src="images/toolbar_orange.png"></a></li>
                 <li class="brush-color"><a id="red"><img src="images/toolbar_red.png"></a></li>
                 <li class="brush-color"><a id="erase"><img src="images/toolbar_eraser.png"></a></li>
@@ -114,8 +114,6 @@
 			enableCanvas();
 			$('#clear').css('visibility', 'hidden');  
 			$('#textoptions').addClass('active3');
-			$('#small').addClass('active');
-			$('#left').addClass('active1');
 			$('.editCanvas').css('display','none');
 			$('.editText').css('display','block');
 			$('#myCanvas').css('visibility','hidden');
@@ -262,11 +260,11 @@
 			
 			if(bolded == true){
 				bolded = false;
-				$("#text").css("font-weight","normal");
+				$("#text").css("font-family","'nautikregular'");
 				$(this).removeClass('active2');
 			} else {
 				bolded = true;
-				$("#text").css("font-weight","bolder");
+				$("#text").css("font-family","'nautikbold'");
 				$(this).addClass('active2');
 			}
 				
@@ -392,28 +390,28 @@
 		
 		$("#blue").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
-				ctx.strokeStyle = "blue";
+				ctx.strokeStyle = "#00A1CB";
 				ctx.stroke();
 			});
 		});
 		
-		$("#yellow").on('tap', function () {
+		$("#green").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
-				ctx.strokeStyle = "yellow";
+				ctx.strokeStyle = "#61AE24";
 				ctx.stroke();
 			});
 		});
 		
 		$("#orange").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
-				ctx.strokeStyle = "orange";
+				ctx.strokeStyle = "#F18D05";
 				ctx.stroke();
 			});
 		});
 		
 		$("#red").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
-				ctx.strokeStyle = "red";
+				ctx.strokeStyle = "#E54028";
 				ctx.stroke();
 			});
 		});

@@ -162,9 +162,22 @@ html, body {
 @media only screen and (min-width: 768px) and (max-width: 959px){
 	
 	#content{
-		float:left;
-		margin-top:50px;
-		width:100%;
+		font-family: 'nautikregular', arial;
+		font-size: 16px;
+		margin: 10px auto;
+		width: 75%;
+	}
+	
+	#help {
+		top: 0;
+		right: 0;
+		position: absolute;
+	}
+	
+	h2 {
+		font-family: 'nautikbold';
+		font-size: 24px;
+		margin: 10px 0px;	
 	}
 	
 	p{
@@ -335,12 +348,22 @@ html, body {
 			
 	}
 	
+	#something {
+		width: 100%;
+			
+	}
+	
+	#something img {
+		width: 100%;
+		height: auto;	
+	}
+	
 	textarea {
 		width: 95%;
 		height: 95%;
 		border: #688237 solid 0px;
 		font-family: 'nautikregular', arial;
-		font-size: 14px;
+		font-size: 16px;
 		resize: none;
 		margin-left:auto;
 		margin-right:auto;
