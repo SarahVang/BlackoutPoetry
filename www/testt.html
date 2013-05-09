@@ -37,16 +37,16 @@
         	<button id="clear" type="button">Clear</button>
             
             <ul>
-            	<li class="options"><a id="textoptions">Text</a></li>
-                <li class="options"><a id="canvas">Draw</a></li>
+            	<li class="options"><a id="textoptions"><img src="images/toolbar_text.png"></a></li>
+                <li class="options"><a id="canvas"><img src="images/toolbar_canvas.png"></a></li>
             </ul>
             
             <ul id="fontSize" class="editText">
-                <li class="text-size"><a id="smaller"><img src="images/toolbar_12px.png"></a></li>
-                <li class="text-size"><a id="small"><img src="images/toolbar_14px.png"></a></li>
-                <li class="text-size"><a id="medium"><img src="images/toolbar_16px.png"></a></li>
-                <li class="text-size"><a id="big"><img src="images/toolbar_18px.png"></a></li>
-                <li class="text-size"><a id="bigger"><img src="images/toolbar_22px.png"></a></li>
+                <li class="text-size"><a id="smaller"><img src="images/toolbar_16px.png"></a></li>
+                <li class="text-size"><a id="small"><img src="images/toolbar_18px.png"></a></li>
+                <li class="text-size"><a id="medium"><img src="images/toolbar_20px.png"></a></li>
+                <li class="text-size"><a id="big"><img src="images/toolbar_22px.png"></a></li>
+                <li class="text-size"><a id="bigger"><img src="images/toolbar_24px.png"></a></li>
             </ul>
             
             <ul id="fontAlignment" class="editText">
@@ -79,11 +79,7 @@
         
         
         </div>
-    	<div class="container">
-        	
-        	
-                        
-        		
+    	<div class="container">	
         	<textarea id="text" maxlength="3000" placeholder="Paste your text here."></textarea>
         	<canvas id="myCanvas"></canvas>
         </div>
@@ -91,38 +87,35 @@
         
 	
     <script>
-	
-		//var canvasData;2
-		
-		//var searchString = document.location.search;
-		
-		//var img = document.createElement("img");
-		//var img = new Image();
 		var canvas;
 		var ctx;
 		
-		var save;
-		
 		var mouseIsDown = false;
+		
+		var textSize;
+		var copied_text;
+		var strSingleLineText = document.getElementById('text').value;
+
+		
+		//$(document).ontouchmove = function(e) {e.preventDefault()};
 		
 		$(document).ready(function(){
 			
+			//////disables linebreak///////
 			$("#text").keypress(function(event) {
-				
+		
 				if(event.which == '13') {
 				  return false;
 				}
 				//var value = value.replace(/^(\r\n)|(\n)/,'')
-			});
-			
-			$("#text").on('tap', function(event) {
-				onFocus="window.scrollTo(0, 0);"
-				//value = value.replace(/^(\r\n)|(\n)/,'');
+				
 			});
 			
 			enableCanvas();
 			$('#clear').css('visibility', 'hidden');  
 			$('#textoptions').addClass('active3');
+			$('#small').addClass('active');
+			$('#left').addClass('active1');
 			$('.editCanvas').css('display','none');
 			$('.editText').css('display','block');
 			$('#myCanvas').css('visibility','hidden');
@@ -134,13 +127,9 @@
 			//return false;
 		});
 		
-		/*function getImage(){
-			var img = canvas1.toDataURL();
-			document.getElementById('canvasImg').src = img;
-		}*/
 		
 		function sendImage(){
-			
+			//$('#text').html($('#text').text().replace(/\n\r?/g, '<br />'));
 			html2canvas(document.getElementsByClassName("container"), {
 				onrendered: function (canvas) {
 				var imageData = canvas.toDataURL("image/png");
@@ -151,8 +140,7 @@
 		};
 		
 		//clear
-		$('#clear').click(function() {
-			
+		$('#clear').on('tap', function() {
 			var x;
 			var r=confirm("Would you like to delete everything you drew? Your text will not be affected.");
 			if (r==true)
@@ -163,67 +151,38 @@
 			  {
 			 
 			  }
-			//document.getElementById("demo").innerHTML=x;
-			
-			//window.alert('Would you like to delete everything you drew? Your text will not be affected.')
-			//ctx.clearRect(0, 0, canvas.width, canvas.height);
-		
 		});
 		
 		function enableCanvas() {
 			//getData();
+			/*var copied_text = document.getElementById('#text').value;
+			alert ('copied_text');
+			copied_text.replace("\\n","g");*/
+			
 			$('#myCanvas').css('visibility','visible');
 			canvas = document.getElementById('myCanvas');
 			canvas.width  = window.innerWidth;
 			canvas.height = window.innerHeight;
 			
 			ctx = canvas.getContext('2d');
+			ctx.lineCap = 'round';
 			
 			//alert('we have'+ canvasData);
 			//img.src = canvasData;
 			//ctx.drawImage(img,0,0);
 		};
-		
-	/*	var canvasTools = false;
-		
-		//$('#canvas').on('tap', function(event){
-			//event.preventDefault();
-			
-			if(canvasTools == true){
-				alert("Hey, canvas is: "+canvasTools);
-				$('#text').on('tap',function(event){
-					$(this).addClass('active1');
-					$('.editCanvas').css('display','none');
-					$('.editText').css('display','block');
-					$('#myCanvas').css('visibility','hidden');
-					$('#canvas').removeClass('active1');
-				});
-				canvasTools = false;
-			} else {
-				
-				$('#canvas').on('tap',function(event){
-					alert("Hey, canvas is: "+canvasTools);
-					$(this).addClass('active1');
-					$('.editCanvas').css('display','block');
-					$('.editText').css('display','none');
-					$('#text').removeClass('active1');
-					enableCanvas();
-				});
-				canvasTools = true;
-				
-				
-			};*/
-		
-		//});
 	
 		
-//TEXT TOOLBAR
+				//////////////////		
+//////////////////TEXT TOOLBAR/////////////////
+			   //////////////////
 		
 
-		var textSize;
+		
 		/*Toggle Text With These Properties*/
 		
 		$('#textoptions').on('tap',function(event){
+			event.preventDefault();
 			//$(this).addClass('active3');
 			$('.editCanvas').css('display','none');
 			$('.editText').css('display','block');
@@ -231,48 +190,48 @@
 			$('#clear').css('visibility', 'hidden');
 		});
 		
-		$("#smaller").click(function () {
-			textSize = "12px";
+		$("#smaller").on('tap', function () {
+			textSize = "16px";
 		   //$("#text").css({"font-size":"12px"});
 		   $("#text").css("font-size",textSize);
 		   
 		});
 		
 		$("#small").on('tap', function(event){
-			textSize = "14px";
+			textSize = "18px";
 			$("#text").css("font-size", textSize);
 		});
 	
 		$("#medium").on('tap', function(event){
-			textSize = "16px";
+			textSize = "20px";
 			$("#text").css("font-size", textSize);
 		});
 	
 		$("#big").on('tap', function(event){
-			textSize = "18px";
+			textSize = "22px";
 			$("#text").css("font-size", textSize);
 		});
 		
 		$("#bigger").on('tap', function(event){
 			event.preventDefault();
-			textSize = "22px";
+			textSize = "24px";
 			$("#text").css("font-size", textSize);
 		});
 			
 		$("#left").on('tap', function(event){
 			event.preventDefault();
-			  $("#text").css("text-align","left");
-			});
+			$("#text").css("text-align","left");
+		});
 			
 		$("#right").on('tap', function(event){
 			event.preventDefault();
-		  $("#text").css("text-align","right");
+			$("#text").css("text-align","right");
 		});
 		
 		$("#center").on('tap', function(event){
 			event.preventDefault();
-			  $("#text").css("text-align","center");
-			});
+			$("#text").css("text-align","center");
+		});
 		
 		/*$("#bold").on('tap', function(event){
 	event.preventDefault();
@@ -341,15 +300,17 @@
 			   //////////////////
 			   
 		$('#canvas').on('tap',function(event){
+			
 			//$(this).addClass('active3');
 			$('.editCanvas').css('display','block');
 			$('.editText').css('display','none');
 			$('#myCanvas').css('visibility', 'visible');
 			$('#clear').css('visibility', 'visible');
+			
 			//enableCanvas();		
 		});
 
-		$('.options').click(function() {
+		$('.options').on('tap', function() {
 			$('.hidden3').hide();
 			$('.active3').removeClass('active3');
 			$(this).addClass('active3');
@@ -385,35 +346,35 @@
 		
 		
 		//brush size
-		$("#xs-brush").click(function () {
+		$("#xs-brush").on('tap',function () {
 			$('#myCanvas').on('vmousedown', function(event){
 				ctx.lineWidth = 2;
 				ctx.stroke();
 			});
 		});	
 		
-		$("#s-brush").click(function () {
+		$("#s-brush").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
 				ctx.lineWidth = 4;
 				ctx.stroke();
 			});
 		});	
 		
-		$("#m-brush").click(function () {
+		$("#m-brush").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
 				ctx.lineWidth = 6;
 				ctx.stroke();
 			});
 		});	
 		
-		$("#l-brush").click(function () {
+		$("#l-brush").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
 				ctx.lineWidth = 10;
 				ctx.stroke();
 			});
 		});	
 		
-		$("#xl-brush").click(function () {
+		$("#xl-brush").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
 				ctx.lineWidth = 14;
 				ctx.stroke();
@@ -422,57 +383,55 @@
 		
 		
 		//brush color
-		$("#black").click(function () {
+		$("#black").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
 				ctx.strokeStyle = "black";
 				ctx.stroke();
 			});
 		});	
 		
-		$("#blue").click(function () {
+		$("#blue").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
 				ctx.strokeStyle = "blue";
 				ctx.stroke();
 			});
 		});
 		
-		$("#yellow").click(function () {
+		$("#yellow").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
 				ctx.strokeStyle = "yellow";
 				ctx.stroke();
 			});
 		});
 		
-		$("#orange").click(function () {
+		$("#orange").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
 				ctx.strokeStyle = "orange";
 				ctx.stroke();
 			});
 		});
 		
-		$("#red").click(function () {
+		$("#red").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
 				ctx.strokeStyle = "red";
 				ctx.stroke();
 			});
 		});
 		
-		$("#erase").click(function () {
+		$("#erase").on('tap', function () {
 			$('#myCanvas').on('vmousedown', function(event){
 				ctx.globalCompositeOperation = 'copy';
-				ctx.strokeStyle = 'rgba(255, 255, 255, 255)';
+				ctx.strokeStyle = 'rgba(0,0,0,0)';
 			});
 		});
 		
-		
-		
-		$('.brush-size').click(function() {
+		$('.brush-size').on('tap', function() {
 			$('.hidden').hide();
 			$('.active').removeClass('active');
 			$(this).addClass('active');
 		}); 
 		
-		$('.brush-color').click(function() {
+		$('.brush-color').on('tap', function() {
 			$('.hidden1').hide();
 			$('.active1').removeClass('active1');
 			$(this).addClass('active1');
