@@ -18,7 +18,10 @@
     <preference name="phonegap-version" value="2.1.0" />
     <preference name="orientation"      value="portrait" />
     <preference name="target-device"    value="tablet" />
-    <preference name="fullscreen"       value="false" />
+    <preference name="fullscreen"       value="true" />
+	<preference name="webviewbounce" 	value="false" />
+	
+	
 	
 	<plugin name="Canvas2ImagePlugin" value="Canvas2ImagePlugin" />
 
