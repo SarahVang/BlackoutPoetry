@@ -359,15 +359,15 @@ html, body {
 	}
 	
 	textarea {
-		width: 93%;
-		height: 93%;
+		width: 90%;
+		height: 90%;
 		border: #688237 solid 0px;
 		font-family: 'nautikregular', arial;
 		font-size: 16px;
 		resize: none;
 		margin-left:auto;
 		margin-right:auto;
-		padding: 3.5%;
+		padding: 5%;
 		display: block;
 	}
 	
