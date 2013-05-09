@@ -5,7 +5,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" / >
-    <meta name="apple-mobile-web-app-status-bar-style" content="yes" />
+    <<meta name="apple-mobile-web-app-capable" content="yes">
     <title>Title</title>
     
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
@@ -83,7 +83,7 @@
         	
                         
         		
-        	<textarea id="text" maxlength="3000" placeholder="Paste your text here." onClick="value=value.replace(/^(\r\n)|(\n)/,'');"></textarea>
+        	<textarea id="text" maxlength="3000" placeholder="Paste your text here."></textarea>
         	<canvas id="myCanvas"></canvas>
         </div>
     </section>
@@ -107,10 +107,16 @@
 		$(document).ready(function(){
 			
 			$("#text").keypress(function(event) {
+				
 				if(event.which == '13') {
 				  return false;
 				}
-				value=value.replace(/^(\r\n)|(\n)/,'')
+				//var value = value.replace(/^(\r\n)|(\n)/,'')
+			});
+			
+			$("#text").on('tap', function(event) {
+				onFocus="window.scrollTo(0, 0);"
+				//value = value.replace(/^(\r\n)|(\n)/,'');
 			});
 			
 			enableCanvas();
